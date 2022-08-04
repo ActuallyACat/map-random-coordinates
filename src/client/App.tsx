@@ -1,7 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
 import { useState, useEffect } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
-/* HOOK REACT EXAMPLE */
+interface AppProps {}
+
 const App = (props: AppProps) => {
 	const [greeting, setGreeting] = useState<string>('');
 
@@ -21,44 +23,19 @@ const App = (props: AppProps) => {
 	return (
 		<main className="container my-5">
 			<h1 className="text-primary text-center">Hello {greeting}!</h1>
+      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
 		</main>
 	);
 };
-
-interface AppProps {}
-
-/* CLASS REACT EXAMPLE */
-// class App extends React.Component<IAppProps, IAppState> {
-// 	constructor(props: IAppProps) {
-// 		super(props);
-// 		this.state = {
-// 			name: null
-// 		};
-// 	}
-
-// 	async componentDidMount() {
-// 		try {
-// 			let r = await fetch('/api/hello');
-// 			let name = await r.json();
-// 			this.setState({ name });
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	}
-
-// 	render() {
-// 		return (
-// 			<main className="container my-5">
-// 				<h1 className="text-primary text-center">Hello {this.state.name}!</h1>
-// 			</main>
-// 		);
-// 	}
-// }
-
-// export interface IAppProps {}
-
-// export interface IAppState {
-// 	name: string;
-// }
 
 export default App;
