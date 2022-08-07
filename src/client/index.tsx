@@ -4,6 +4,5 @@ import App from './App';
 import './scss/app.scss';
 
 const container = document.getElementById('root');
-console.log(container)
 const root = createRoot(container as Element)
 root.render(<App />);
