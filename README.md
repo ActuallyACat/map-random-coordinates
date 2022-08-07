@@ -18,4 +18,8 @@ I added the following libraries:
 * Any missing types
 
 ## Improvements
-* Tests. 
+* Shared types - A marker is the same on the server and client (`{ lat: number, lng: number }`). When API and client are closely related like this there are opportunities to share types to ensure either the client or server does not make a change without accounting for how that would affect the other.
+* Tests - For both client and server. 
+* Mapping - I'm not confident (or know enough about mapping in general) to say this will behave predicably around the poles, equator, and when the entire world is in the viewport. A third party library might have been better used to cover these use cases. 
+* UI - It's very barebones and there are opportunities for improvement. Random markers _should_ be generated on map load but they currently are not - it waits for the first user action (zoom/pan). A quick win for the user would be to give them the ability to specify how many markers they want to generate. There's also no feedback to the user when something has gone wrong (such as API returning a 500).
+* API - No error handling :( Forbidden requests (such as trying to execute a GET on `/api/points`) should return an appropriate server response. 

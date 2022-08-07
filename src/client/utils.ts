@@ -3,7 +3,9 @@ const BASE_PATH = '/api';
 
 /**
  * Wrapper over fetch to enforce sensible defaults for interacting
- * with the API.
+ * with the API. If this were a bigger repo this function would be a 
+ * good place to add retries and other such things.
+ * 
  * @param uri - The URI to be requested 
  * @param body - The body of the request
  * @returns 
