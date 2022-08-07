@@ -34,14 +34,19 @@ const App = (props: AppProps) => {
 	useEffect(() => {
 		async function sendBounds() {
 			if (!bounds) return;
+			setApiState(LoadingState.Loading)
 			try {
 				// @TODO - better types for expected sent/received data
-				setApiState(LoadingState.Loading)
-				const response = await post<{ points: any }>('points', {
-					todo: 'test'
-				});
-				setApiState(LoadingState.Complete)
-				setMarkers(response.points)
+				post<{ points: any }>('points', {
+					topLeft: bounds.getNorthWest(),
+					topRight: bounds.getNorthEast(),
+					bottomRight: bounds.getSouthEast(),
+					bottomLeft: bounds.getSouthWest()
+				})
+					.then(res => {
+						setApiState(LoadingState.Complete)
+						setMarkers(res.points)
+					})
 			} catch (err) {
 				setApiState(LoadingState.Error)
 				console.error(err)
@@ -52,16 +57,17 @@ const App = (props: AppProps) => {
 
 	return (
 		<main className="container my-5">
+			<h1>{apiState === 1 && <h1>Loading</h1>}</h1>
 			<MapContainer center={initialPosition} zoom={13} scrollWheelZoom={false}>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 				/>
 				<MapBounds setBounds={setBounds} />
-				{markers.map(({ lat, long }, i) => (
+				{markers.map(({ lat, lng }, i) => (
 					<CircleMarker
 						key={`marker-${i}`}
-						center={[lat, long]}
+						center={[lat, lng]}
 						pathOptions={{ color: 'red' }}
 						radius={10}>
 					</CircleMarker>
